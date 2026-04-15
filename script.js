@@ -103,20 +103,20 @@ document.querySelector('.cases-carousel').addEventListener('touchend',e=>{
 
 /* ── SERVICES SCROLL ── */
 const st=document.getElementById('servTrack');
+const servWrap=document.querySelector('.serv-track-wrap');
 const CW=312;let so=0;
-const maxSo=()=>Math.max(0,st.scrollWidth-st.parentElement.offsetWidth);
-document.getElementById('servNext').addEventListener('click',()=>{so=Math.min(so+CW,maxSo());st.style.transform=`translateX(-${so}px)`});
-document.getElementById('servPrev').addEventListener('click',()=>{so=Math.max(0,so-CW);st.style.transform=`translateX(-${so}px)`});
+const maxSo=()=>Math.max(0,st.scrollWidth-servWrap.offsetWidth);
+const servStep=()=>window.innerWidth<768?servWrap.offsetWidth:CW;
+document.getElementById('servNext').addEventListener('click',()=>{so=Math.min(so+servStep(),maxSo());st.style.transform=`translateX(-${so}px)`});
+document.getElementById('servPrev').addEventListener('click',()=>{so=Math.max(0,so-servStep());st.style.transform=`translateX(-${so}px)`});
 
 /* Touch swipe: soluções */
 let sTouchX=0;
-const servWrap=document.querySelector('.serv-track-wrap');
 servWrap.addEventListener('touchstart',e=>{sTouchX=e.touches[0].clientX;},{passive:true});
 servWrap.addEventListener('touchend',e=>{
   const dx=sTouchX-e.changedTouches[0].clientX;
   if(Math.abs(dx)<40)return;
-  const step=servWrap.offsetWidth;
-  so=dx>0?Math.min(so+step,maxSo()):Math.max(0,so-step);
+  so=dx>0?Math.min(so+servStep(),maxSo()):Math.max(0,so-servStep());
   st.style.transform=`translateX(-${so}px)`;
 },{passive:true});
 
