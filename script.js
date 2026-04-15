@@ -15,7 +15,8 @@ const cnv=document.getElementById('cnv'),ctx=cnv.getContext('2d');
 let W,H;
 function resize(){W=cnv.width=innerWidth;H=cnv.height=innerHeight}
 resize();window.addEventListener('resize',resize,{passive:true});
-const N=85,DIST=145;
+const mobile=innerWidth<768;
+const N=mobile?38:85,DIST=mobile?95:145;
 const PCOLS=['232,201,109','201,168,76','158,117,48','245,215,142','200,160,55'];
 class Node{
   constructor(){this.reset(true)}
@@ -32,7 +33,8 @@ class Node{
   }
 }
 const nodes=Array.from({length:N},()=>new Node());
-(function frame(){
+let rafId=null,heroPaused=false,tabPaused=false;
+function frame(){
   ctx.clearRect(0,0,W,H);
   for(let i=0;i<N;i++){
     nodes[i].step();
@@ -48,8 +50,21 @@ const nodes=Array.from({length:N},()=>new Node());
       }
     }
   }
-  requestAnimationFrame(frame);
-})();
+  rafId=requestAnimationFrame(frame);
+}
+function startAnim(){if(!heroPaused&&!tabPaused&&!rafId){rafId=requestAnimationFrame(frame);}}
+function stopAnim(){if(rafId){cancelAnimationFrame(rafId);rafId=null;}}
+startAnim();
+/* Pausa quando aba está em segundo plano */
+document.addEventListener('visibilitychange',()=>{
+  tabPaused=document.hidden;
+  tabPaused?stopAnim():startAnim();
+});
+/* Pausa quando hero sai da tela */
+new IntersectionObserver(e=>{
+  heroPaused=!e[0].isIntersecting;
+  heroPaused?stopAnim():startAnim();
+},{threshold:0}).observe(cnv);
 
 /* ── SCROLL REVEAL ── */
 const io=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),

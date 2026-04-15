@@ -201,7 +201,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--txt);overflow-x:hi
   opacity:0;animation:fadeVis .9s ease .45s forwards;
 }
 @keyframes fadeVis{to{opacity:1}}
-.hero-ring{position:absolute;border-radius:50%}
+.hero-ring{position:absolute;border-radius:50%;will-change:transform}
 .hero-ring.r1{
   width:400px;height:400px;
   border:1px solid rgba(232,201,109,.2);
@@ -232,6 +232,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--txt);overflow-x:hi
   background:radial-gradient(circle at 35% 35%,#F5D78E 0%,#C9A84C 45%,#8B6914 100%);
   box-shadow:0 0 55px rgba(201,168,76,.72),0 0 110px rgba(201,168,76,.28),inset 0 0 30px rgba(255,255,255,.14);
   animation:pulseOrb 3.8s ease-in-out infinite;
+  will-change:transform;
 }
 @keyframes pulseOrb{0%,100%{transform:scale(1);box-shadow:0 0 55px rgba(201,168,76,.72),0 0 110px rgba(201,168,76,.28)}50%{transform:scale(1.07);box-shadow:0 0 75px rgba(201,168,76,.9),0 0 145px rgba(201,168,76,.42)}}
 .hero-data-card{
@@ -241,6 +242,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--txt);overflow-x:hi
   border-radius:12px;backdrop-filter:blur(14px);
   padding:12px 16px;white-space:nowrap;
   animation:floatCard 4s ease-in-out infinite;
+  will-change:transform;
 }
 .hero-data-card.dc1{top:55px;right:15px;animation-delay:0s}
 .hero-data-card.dc2{bottom:90px;left:10px;animation-delay:1.3s;border-color:rgba(201,168,76,.3)}
@@ -308,7 +310,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--txt);overflow-x:hi
 .clients-head{text-align:center;margin-bottom:56px}
 .clients-head p{font-size:15px;color:var(--txt-soft);max-width:440px;margin:12px auto 0;line-height:1.75}
 .marquee-outer{overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#fff 12%,#fff 88%,transparent)}
-.marquee-row{display:flex;width:max-content;margin-bottom:12px}
+.marquee-row{display:flex;width:max-content;margin-bottom:12px;will-change:transform}
 .marquee-row.to-left {animation:marqL 30s linear infinite}
 .marquee-row.to-right{animation:marqR 30s linear infinite}
 .brand{
@@ -677,6 +679,10 @@ footer{background:var(--dark);padding:80px 0 40px;overflow:hidden}
 
   /* Hero: altura automática, sem forçar 100vh no mobile */
   #hero{height:auto;min-height:auto;padding:84px 0 52px}
+  /* Reduz efeitos caros no mobile */
+  .nav.solid{backdrop-filter:none;background:rgba(26,14,8,.98)}
+  .hero-badge{backdrop-filter:none}
+  .hero-glow-1,.hero-glow-2,.hero-glow-3{filter:blur(32px)}
   .hero-mini-stats{gap:16px;margin-top:24px}
 
   /* Compactar padding de todas as seções */
